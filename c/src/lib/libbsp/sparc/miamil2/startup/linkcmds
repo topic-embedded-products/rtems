@@ -1,0 +1,31 @@
+/*  linkcmds
+ */
+
+/*
+ * Address map:
+ * 0x40100000 .. 0x5FFFFFFF  RAM, cache enabled (first 1MB at 0x40000000 not accessible)
+ * 0xA0100000 .. 0xBFFFFFFF  RAM, cache disabled (points to the same memory!)
+ *
+ * Usage of the 512MB DDR on the Miami:
+ * 256MB: normal data RAM (cacheable)
+ * 128MB: coherent buffer (non cacheable)
+ * 128MB: filesystem "rom" in tar image (cacheable)
+ */
+_PROM_SIZE = 128M;
+_PROM_START = 0x58000000;
+_RAM_SIZE = 255M;
+_RAM_START = 0x40100000;
+
+/*
+ *  Base address of the on-CPU peripherals
+ */
+_LEON_REG = 0x80000000;
+LEON_REG = _LEON_REG;
+
+MEMORY
+{
+  rom     : ORIGIN = _PROM_START, LENGTH = _PROM_SIZE
+  ram     : ORIGIN = _RAM_START, LENGTH = _RAM_SIZE
+}
+
+INCLUDE linkcmds.base
