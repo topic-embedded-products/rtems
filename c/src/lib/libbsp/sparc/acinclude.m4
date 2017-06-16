@@ -10,6 +10,8 @@ AC_DEFUN([RTEMS_CHECK_BSPDIR],
     AC_CONFIG_SUBDIRS([leon3]);;
   miamil2 )
     AC_CONFIG_SUBDIRS([miamil2]);;
+  ml506l2 )
+    AC_CONFIG_SUBDIRS([ml506l2]);;
   *)
     AC_MSG_ERROR([Invalid BSP]);;
   esac

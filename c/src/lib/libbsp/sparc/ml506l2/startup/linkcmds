@@ -1,0 +1,31 @@
+/*  linkcmds
+ */
+
+/*
+ * Address map:
+ * 0x00000000 .. 0x3FFFFFFF  ROM, cache enabled
+ * 0x40000000 .. 0x4FFFFFFF  RAM, cache enabled
+ * 0xA0000000 .. 0x1FFFFFFF  RAM, cache disabled (points to the same memory!)
+ *
+ * Usage of the 256MB DDR on the ML506:
+ * 128MB: normal data RAM (cacheable)
+ * 128MB: coherent buffer (non cacheable)
+ */
+_PROM_SIZE = 0M;
+_PROM_START = 0x00000000;
+_RAM_SIZE = 128M;
+_RAM_START = 0x40000000;
+
+/*
+ *  Base address of the on-CPU peripherals
+ */
+_LEON_REG = 0x80000000;
+LEON_REG = _LEON_REG;
+
+MEMORY
+{
+  rom     : ORIGIN = _PROM_START, LENGTH = _PROM_SIZE
+  ram     : ORIGIN = _RAM_START, LENGTH = _RAM_SIZE
+}
+
+INCLUDE linkcmds.base
