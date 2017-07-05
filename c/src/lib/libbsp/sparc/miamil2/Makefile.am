@@ -255,5 +255,9 @@ endif
 
 EXTRA_DIST = times
 
+# Dyplo support
+include_bsp_HEADERS += include/dyplo.h
+
+
 include $(srcdir)/preinstall.am
 include $(top_srcdir)/../../../../automake/local.am
