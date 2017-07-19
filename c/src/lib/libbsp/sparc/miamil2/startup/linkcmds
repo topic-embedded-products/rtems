@@ -28,4 +28,7 @@ MEMORY
   ram     : ORIGIN = _RAM_START, LENGTH = _RAM_SIZE
 }
 
-INCLUDE linkcmds.base
+REGION_ALIAS ("REGION_READONLY", ram);
+REGION_ALIAS ("REGION_RAM", ram);
+
+INCLUDE linkcmds.base-rom

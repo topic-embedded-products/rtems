@@ -23,7 +23,7 @@ noinst_LIBRARIES = libbspstart.a
 libbspstart_a_SOURCES = ../../sparc/shared/start/start.S
 project_lib_DATA = start.$(OBJEXT)
 
-dist_project_lib_DATA += startup/linkcmds ../shared/startup/linkcmds.base
+dist_project_lib_DATA += startup/linkcmds ../shared/startup/linkcmds.base ../shared/startup/linkcmds.base-rom
 
 noinst_LIBRARIES += libbsp.a
 libbsp_a_SOURCES =

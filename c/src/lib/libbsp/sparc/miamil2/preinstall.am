@@ -77,6 +77,10 @@ $(PROJECT_LIB)/linkcmds.base: ../shared/startup/linkcmds.base $(PROJECT_LIB)/$(d
 	$(INSTALL_DATA) $< $(PROJECT_LIB)/linkcmds.base
 PREINSTALL_FILES += $(PROJECT_LIB)/linkcmds.base
 
+$(PROJECT_LIB)/linkcmds.base-rom: ../shared/startup/linkcmds.base-rom $(PROJECT_LIB)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_LIB)/linkcmds.base-rom
+PREINSTALL_FILES += $(PROJECT_LIB)/linkcmds.base-rom
+
 $(PROJECT_INCLUDE)/bsp/gnatcommon.h: ../shared/include/gnatcommon.h $(PROJECT_INCLUDE)/bsp/$(dirstamp)
 	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/bsp/gnatcommon.h
 PREINSTALL_FILES += $(PROJECT_INCLUDE)/bsp/gnatcommon.h
@@ -279,3 +283,7 @@ $(PROJECT_INCLUDE)/bsp/network_interface_add.h: ../../sparc/shared/include/netwo
 	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/bsp/network_interface_add.h
 PREINSTALL_FILES += $(PROJECT_INCLUDE)/bsp/network_interface_add.h
 endif
+$(PROJECT_INCLUDE)/bsp/dyplo.h: include/dyplo.h $(PROJECT_INCLUDE)/bsp/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/bsp/dyplo.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/bsp/dyplo.h
+
