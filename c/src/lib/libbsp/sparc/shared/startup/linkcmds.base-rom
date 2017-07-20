@@ -162,10 +162,10 @@ SECTIONS
     . = ALIGN(0x10);
     edata = .;
     _edata = .;
-  } > REGION_RAM
+  } > REGION_RAM AT > REGION_READONLY
   .rtemsrwset : {
     KEEP (*(SORT(.rtemsrwset.*)))
-  } > REGION_RAM
+  } > REGION_RAM AT > REGION_READONLY
   .dynamic	  : { *(.dynamic) 	} >REGION_RAM
   .jcr		  : { *(.jcr) 		} >REGION_RAM
   .got		  : { *(.got) 		} >REGION_RAM
@@ -178,7 +178,7 @@ SECTIONS
   .shbss :
   {
     *(.shbss)
-  } > REGION_RAM
+  } > REGION_RAM AT > REGION_READONLY
   .bss :
   {
     __bss_start = ALIGN(0x8);
