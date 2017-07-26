@@ -49,11 +49,12 @@ static inline int set_snooping(void)
  * Use a portion of the RAM as coherent buffer by only accessing it through
  * the non-cachable range */
 static const void* bsp_nocache_heap_begin	= 0xA8000000;
-static const uintptr_t bsp_nocache_heap_size	= 0x08000000;
+static const uintptr_t bsp_nocache_heap_size	= 0; /* for now */
 
 void bsp_start( void )
 {
   CPU_SPARC_HAS_SNOOPING = set_snooping();
-  
-  rtems_cache_coherent_add_area(bsp_nocache_heap_begin, bsp_nocache_heap_size);
+
+  if (bsp_nocache_heap_size)
+    rtems_cache_coherent_add_area(bsp_nocache_heap_begin, bsp_nocache_heap_size);
 }

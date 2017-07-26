@@ -155,6 +155,7 @@ SECTIONS
     data_start = .;
     _data_start = .;
     _sdata = . ;
+    *(.trap_table)
     *(.data*)
     *(.gnu.linkonce.d*)
     . = ALIGN(0x10);
