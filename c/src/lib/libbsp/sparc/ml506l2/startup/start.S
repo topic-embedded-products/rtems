@@ -259,32 +259,74 @@ start:
         PUBLIC(hard_reset)
 SYM(hard_reset):
 
-/* Common initialisation */
-        set     SYM(start), %g1    ! Initialize TBR to ROM
-        mov     %g1, %tbr
-
-/* ML506 specific initialisation */
+	/* Flush caches */
+	flush
+	nop
+	nop
+	nop
 
 	/* LEON config registers */
-        set   SYM(LEON_REG), %g3
+        set	SYM(LEON_REG), %g3
 
-	/* Enable I and D cache */
-	flush
+	/* Cache control register:
+	 * [23]  = 1  (DS) Enable data snoop
+	 * [16]  = 1  (IB) Enable burst instruction fetch
+	 * [3:2] = 11 (ICS) Enable data cache
+	 * [1:0] = 11 (DCS) Enable instruction cache
+	 */
 	set	0x81000f, %g1
   	st	%g1, [%g3 + 0x14]
 
-	/* initialize mcfg1 and mcfg2 registers */
+	/* initialize mcfg1 and mcfg2 registers (ROM and RAM config) */
         set   LEON2_MCFG1_VALUE, %g1
 	st    %g1, [%g3 + 0]
         set   LEON2_MCFG2_VALUE, %g1
 	st    %g1, [%g3 + 4]
+
+	/* Reset all registers to zero, in all windows */
+	mov	%g0, %y
+	clr	%g4
+	clr	%g5
+	clr	%g7
+	mov	%asr17, %g1
+	and	%g1, 0x1f, %g1
+clear_window:
+	mov	%g0, %l0
+	mov	%g0, %l1
+	mov	%g0, %l2
+	mov	%g0, %l3
+	mov	%g0, %l4
+	mov	%g0, %l5
+	mov	%g0, %l6
+	mov	%g0, %l7
+	mov	%g0, %o0
+	mov	%g0, %o1
+	mov	%g0, %o2
+	mov	%g0, %o3
+	mov	%g0, %o4
+	mov	%g0, %o5
+	mov	%g0, %o6
+	mov	%g0, %o7
+	subcc	%g1, 1, %g1
+	bge	clear_window
+	save
+
+	/* Set trap base register to point to trap table in ROM */
+        set     SYM(start), %g1    ! Initialize TBR to ROM
+        mov     %g1, %tbr
+
+	/* Reset interrupts */
+	sub	%g0, 1, %g2
+	st	%g0, [%g3 + 0x90]
+	st	%g0, [%g3 + 0x98]
+	st	%g2, [%g3 + 0x9C]
 
 	/* Set stack pointer (and frame pointer) to end of RAM */
 	set	LEON2_RDB_START, %l1
 	mov	%l1, %sp
 	mov     %sp, %fp
 
-	/* Initialize UART1 */
+	/* Initialize UART1 (%g3 = LEON_REG still) */
         set   UART1_SCALER_VALUE, %g1
         st    %g1, [%g3 + 0x7c]
         set   UART1_CONTROL_VALUE, %g1
@@ -298,20 +340,8 @@ SYM(hard_reset):
         set   TIMER_CONTROL_VALUE, %g1
         st    %g1, [%g3 + 0x48]
 
-	/* Reset interrupts */
-	sub	%g0, 1, %g2
-	st	%g0, [%g3 + 0x90]
-	st	%g0, [%g3 + 0x98]
-	st	%g2, [%g3 + 0x9C]
-
-	/* Set Y-register to 0 */
-	mov	%g0, %y
-
-/* End ML506 code */
-
         /*
          *  Copy the initialized data to RAM
-         *
          *  FROM:   _endtext
          *  TO:     _data_start
          *  LENGTH: (__bss_start - _data_start) bytes
@@ -373,9 +403,9 @@ setup_trap_table:
 
 	/* RTEMS needs this in %g6 at start */
 	set	_Per_CPU_Information, %g6   ! Set magic register %g6
- 
-         mov     %0, %o0                 ! command line
-        call    SYM(boot_card)          ! does not return
-         sub     %sp, 0x60, %sp         ! room for boot_card to save args
+
+	mov     %0, %o0                 ! command line
+	call    SYM(boot_card)          ! does not return
+	sub     %sp, 0x60, %sp          ! room for boot_card to save args
 
 /* end of file */
