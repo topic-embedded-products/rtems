@@ -24,6 +24,9 @@
 #define UART1_CONTROL_VALUE	0x3
 #define TIMER_COUNTER_VALUE	0xDEAFBABE
 #define TIMER_CONTROL_VALUE	0x7
+# The RTEMS clock driver for LEON2 assumes the clock runs at 1MHz, so set the
+# prescaler accordingly.
+#define TIMER_PRESCALER_VALUE	(LEON2_CLOCK_SPEED - 1)
 
 #define LEON2_RDB_START		(SYM(RAM_END) - 64)
 
@@ -337,6 +340,8 @@ clear_window:
         /* Reset UART status */
         st    %g0, [%g3 + 0x74]
 
+        set   TIMER_PRESCALER_VALUE, %g1
+        st    %g1, [%g3 + 0x64]
 	set   TIMER_COUNTER_VALUE, %g1
         st    %g1, [%g3 + 0x40]
         st    %g1, [%g3 + 0x44]
