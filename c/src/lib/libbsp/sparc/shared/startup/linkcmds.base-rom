@@ -64,7 +64,7 @@ SECTIONS
     *(.text*)
     . = ALIGN (16);
 
-    KEEP(*(.eh_fREGION_RAMe*))
+    KEEP(*(.eh_frame*))
     . = ALIGN (16);
 
     *(.gnu.linkonce.t*)
