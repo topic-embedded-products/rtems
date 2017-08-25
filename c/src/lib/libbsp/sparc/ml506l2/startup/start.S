@@ -17,10 +17,10 @@
 #define LEON2_MCFG1_VALUE	0x101
 #define LEON2_MCFG2_VALUE	0xe60
 /* Clock speed in MHz */
-#define LEON2_CLOCK_SPEED	10
+#define LEON2_CLOCK_SPEED	25
 /* 10MHz clock, 9600 baud = 1041, 8x oversampling hence 1041/8 = 130, results
  * in 9615 baud rate: ((LEON2_CLOCK_SPEED * 1000000) / 8) / baudrate */
-#define UART1_SCALER_VALUE	130
+#define UART1_SCALER_VALUE	325
 #define UART1_CONTROL_VALUE	0x3
 #define TIMER_COUNTER_VALUE	0xDEAFBABE
 #define TIMER_CONTROL_VALUE	0x7
