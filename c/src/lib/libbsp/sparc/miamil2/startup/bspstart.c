@@ -56,4 +56,8 @@ void bsp_start( void )
   CPU_SPARC_HAS_SNOOPING = set_snooping();
   
   rtems_cache_coherent_add_area(bsp_nocache_heap_begin, bsp_nocache_heap_size);
+
+  // Program the "I/O port interrupt config. register 1" (at 0x800000A8) to map 
+  // IRQ 5 to PIO pin xx for both LEON2 and LEON2FT.
+  *(volatile unsigned int*)0x800000A8 = 0x0000A500;
 }
