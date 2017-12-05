@@ -11,7 +11,7 @@
  * 128MB: normal data RAM (cacheable)
  * 128MB: coherent buffer (non cacheable)
  */
-_PROM_SIZE = 2M;
+_PROM_SIZE = 32M;
 _PROM_START = 0x00000000;
 _RAM_SIZE = 1M;
 _RAM_START = 0x40000000;
